@@ -1,0 +1,68 @@
+// /lib/simulasi/core/utils.js
+// ------------------------------------------------------
+// Bagian fungsi bantu dari file asli: jarak, warna, konversi, getPixel, dan generator acak
+// ------------------------------------------------------
+
+function jarak(x1, y1, x2, y2) {
+  return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+}
+
+function cariSudut(x1, y1, x2, y2) {
+  return Math.atan2(y2 - y1, x2 - x1);
+}
+
+function jarakObjek(obj1, obj2) {
+  return Math.sqrt(
+    (obj2.x - obj1.x) * (obj2.x - obj1.x) +
+      (obj2.y - obj1.y) * (obj2.y - obj1.y)
+  );
+}
+
+function hexToRGBA(hex, alpha) {
+  var c;
+  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)) {
+    c = hex.substring(1).split("");
+    if (c.length == 3) {
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    c = "0x" + c.join("");
+    return (
+      "rgba(" +
+      [(c >> 16) & 255, (c >> 8) & 255, c & 255].join(",") +
+      "," +
+      alpha +
+      ")"
+    );
+  }
+  return hex;
+}
+
+function rgbToHex(r, g, b) {
+  return (
+    "#" +
+    ((1 << 24) + (r << 16) + (g << 8) + b)
+      .toString(16)
+      .slice(1)
+      .toUpperCase()
+  );
+}
+
+function getPixel(x, y) {
+  var data = konten.getImageData(x, y, 1, 1).data;
+  return { r: data[0], g: data[1], b: data[2], a: data[3] };
+}
+
+function acak(min, max) {
+  if (max == undefined) {
+    max = min;
+    min = 0;
+  }
+  return Math.random() * (max - min) + min;
+}
+
+function warnaAcak() {
+  var r = Math.floor(Math.random() * 255);
+  var g = Math.floor(Math.random() * 255);
+  var b = Math.floor(Math.random() * 255);
+  return "rgb(" + r + "," + g + "," + b + ")";
+}
